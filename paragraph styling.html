@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Paragraph Styling</title>
+    <style>
+        /* Define styles to cycle through */
+        .style1 {
+            font-size: 16px;
+            color: black;
+        }
+        .style2 {
+            font-size: 24px;
+            color: blue;
+            font-weight: bold;
+        }
+        .style3 {
+            font-size: 20px;
+            color: green;
+            font-style: italic;
+        }
+        .style4 {
+            font-size: 18px;
+            color: red;
+            text-decoration: underline;
+        }
+        .style5 {
+            font-size: 22px;
+            color: purple;
+            background-color: #f0f0f0;
+        }
+        .style6 {
+            font-size: 14px;
+            color: orange;
+            font-weight: 900;
+        }
+        .style7 {
+            font-size: 26px;
+            color: teal;
+            font-style: oblique;
+        }
+        .style8 {
+            font-size: 19px;
+            color: brown;
+            text-decoration: line-through;
+        }
+        .style9 {
+            font-size: 21px;
+            color: navy;
+            letter-spacing: 2px;
+        }
+        .style10 {
+            font-size: 17px;
+            color: darkmagenta;
+            font-variant: small-caps;
+        }
+    </style>
+</head>
+<body>
+    <p id="myParagraph" class="style1">
+        This is a sample paragraph. Click the button to change its style.
+    </p>
+    <button id="changeStyleBtn">Change Style</button>
+
+    <script>
+        const paragraph = document.getElementById('myParagraph');
+        const styles = ['style1', 'style2', 'style3', 'style4', 'style5', 'style6', 'style7', 'style8', 'style9', 'style10'];
+        let currentStyleIndex = 0;
+
+        document.getElementById('changeStyleBtn').addEventListener('click', () => {
+            // Remove current style class
+            paragraph.classList.remove(styles[currentStyleIndex]);
+            // Update index to next style
+            currentStyleIndex = (currentStyleIndex + 1) % styles.length;
+            // Add new style class
+            paragraph.classList.add(styles[currentStyleIndex]);
+        });
+    </script>
+</body>
+</html>
