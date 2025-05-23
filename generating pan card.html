@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Generating PAN Card</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&family=Roboto&display=swap');
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .pan-card-container {
+    width: 650px;
+    height: 350px;
+    background: linear-gradient(135deg, #d0e4f7 0%, #a9c9f7 100%);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    color: #1a1a1a;
+    padding: 20px 30px;
+    box-sizing: border-box;
+    position: relative;
+    font-family: 'Roboto Slab', serif;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+  }
+
+  .header-left {
+    font-size: 1.1em;
+    font-weight: 700;
+    line-height: 1.2em;
+    color: #3a3a3a;
+    text-align: left;
+  }
+
+  .header-left span {
+    display: block;
+  }
+
+  .header-center img {
+    height: 60px;
+  }
+
+  .header-right {
+    font-size: 1.1em;
+    font-weight: 700;
+    line-height: 1.2em;
+    color: #3a3a3a;
+    text-align: right;
+  }
+
+  .content {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .details {
+    flex: 1.5;
+    font-size: 1em;
+    color: #2a2a2a;
+  }
+
+  .details div {
+    margin-bottom: 12px;
+  }
+
+  .details label {
+    font-weight: 600;
+    color: #555;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .details .value {
+    font-weight: 700;
+    font-size: 1.1em;
+    color: #000;
+    text-transform: uppercase;
+  }
+
+  .qr-code {
+    width: 120px;
+    height: 120px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(0,0,0,0.15);
+  }
+
+  .photo-placeholder {
+    width: 100px;
+    height: 120px;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png') no-repeat center center;
+    background-size: contain;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+
+  .signature {
+    font-style: italic;
+    font-family: 'Roboto Slab', serif;
+    font-size: 1.1em;
+    margin-top: 30px;
+    color: #333;
+  }
+
+  button {
+    margin-top: 20px;
+    background-color: #1a3a7a;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1em;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #0f265a;
+  }
+
+  #panNumber {
+    margin-top: 15px;
+    font-weight: 700;
+    font-size: 1.2em;
+    color: #0a1a3a;
+    text-align: center;
+  }
+</style>
+<script>
+  function generatePAN() {
+    var firstName = document.getElementById("firstName").value.trim();
+    var middleName = document.getElementById("middleName").value.trim();
+    var surname = document.getElementById("surname").value.trim();
+    var fatherFirstName = document.getElementById("fatherFirstName").value.trim();
+    var fatherMiddleName = document.getElementById("fatherMiddleName").value.trim();
+    var fatherSurname = document.getElementById("fatherSurname").value.trim();
+    var dob = document.getElementById("dob").value;
+    var panNumber = document.getElementById("panNumberInput").value.trim();
+
+    // Improved PAN number generation logic if empty
+    if (!panNumber) {
+      // 1st 3 letters of surname (or pad with X)
+      var part1 = (surname.substring(0, 3).toUpperCase() + "XXX").substring(0, 3);
+      // 4th letter: first letter of first name or X
+      var part2 = firstName.charAt(0).toUpperCase() || "X";
+      // 5th letter: first letter of middle name or X
+      var part3 = middleName.charAt(0).toUpperCase() || "X";
+      // 4 digits random number
+      var part4 = Math.floor(1000 + Math.random() * 9000);
+      // last letter random uppercase letter
+      var letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      var part5 = letters.charAt(Math.floor(Math.random() * letters.length));
+      panNumber = part1 + part2 + part3 + part4 + part5;
+    }
+
+    // Display values in the card
+    document.getElementById("panHolderName").textContent = (firstName + " " + middleName + " " + surname).toUpperCase();
+    document.getElementById("fatherName").textContent = (fatherFirstName + " " + fatherMiddleName + " " + fatherSurname).toUpperCase();
+    document.getElementById("dobDisplay").textContent = dob.split('-').reverse().join(' / ');
+    document.getElementById("panNumberDisplay").textContent = panNumber;
+
+    // Show generated PAN ID in dedicated element
+    document.getElementById("panNumber").textContent = "Generated PAN ID: " + panNumber;
+  }
+</script>
+</head>
+<body>
+  <div class="pan-card-container">
+    <div class="header">
+      <div class="header-left">
+        <span>आयकर विभाग</span>
+        <span>INCOME TAX DEPARTMENT</span>
+      </div>
+      <div class="header-center">
+        <img src="emblem.jpeg" alt="Emblem of India" />
+      </div>
+      <div class="header-right">
+        <span>भारत सरकार</span>
+        <span>GOVT. OF INDIA</span>
+      </div>
+    </div>
+    <div class="content">
+      <div class="details">
+        <div>
+          <label>नाम / Name</label>
+          <div id="panHolderName" class="value">APPLICANT NAME</div>
+        </div>
+        <div>
+          <label>पिता का नाम / Father's Name</label>
+          <div id="fatherName" class="value">APPLICANT'S FATHER NAME</div>
+        </div>
+        <div>
+          <label>जन्म की तारीख / Date of Birth</label>
+          <div id="dobDisplay" class="value">01/06/1995</div>
+        </div>
+        <div>
+          <label>Permanent Account Number Card</label>
+          <div id="panNumberDisplay" class="value">ABCDE1234F</div>
+        </div>
+        <div class="signature" id="signatureDisplay">Signature</div>
+        <input type="text" id="signatureInput" placeholder="Enter Signature" style="margin-top: 10px; width: 100%; font-style: italic; font-family: 'Roboto Slab', serif;" oninput="updateSignature()" />
+        <script>
+          function updateSignature() {
+            var sig = document.getElementById('signatureInput').value;
+            document.getElementById('signatureDisplay').textContent = sig || 'Signature';
+          }
+        </script>
+      </div>
+      <div>
+        <div class="photo-placeholder"></div>
+        <img class="qr-code" src="qr.jpeg" alt="QR Code" />
+      </div>
+    </div>
+    <div style="margin-top: 20px;">
+      <input type="text" id="firstName" placeholder="First Name" />
+      <input type="text" id="middleName" placeholder="Middle Name" style="margin-top: 10px;" />
+      <input type="text" id="surname" placeholder="Surname" style="margin-top: 10px;" />
+      <input type="text" id="fatherFirstName" placeholder="Father's First Name" style="margin-top: 10px;" />
+      <input type="text" id="fatherMiddleName" placeholder="Father's Middle Name" style="margin-top: 10px;" />
+      <input type="text" id="fatherSurname" placeholder="Father's Surname" style="margin-top: 10px;" />
+      <input type="date" id="dob" placeholder="Date of Birth" style="margin-top: 10px;" />
+      <input type="text" id="panNumberInput" placeholder="PAN Number (optional)" style="margin-top: 10px;" />
+      <button onclick="generatePAN()">Generate PAN Card</button>
+      <div id="panNumber"></div>
+    </div>
+  </div>
+</body>
+</html>
